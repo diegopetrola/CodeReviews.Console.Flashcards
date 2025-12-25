@@ -7,6 +7,6 @@ public class StudySession
     public DateTime EndTime { get; set; } = DateTime.UtcNow;
     public int CardStackId { get; set; }
     public CardStack CardStack { get; set; } = null!;
-    public int Score { get; set; }
+    public double Score { get; set; }
     public int TotalQuestions { get; set; }
 }

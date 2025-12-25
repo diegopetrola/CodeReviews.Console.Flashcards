@@ -1,4 +1,5 @@
 ﻿using Flashcards.DiegoPetrola.Context;
+using Flashcards.DiegoPetrola.DTOs;
 using Flashcards.DiegoPetrola.Entities;
 using Flashcards.DiegoPetrola.Utils;
 using Microsoft.EntityFrameworkCore;
@@ -59,7 +60,7 @@ public class FlashcardService(FlashcardContext flashcardContext) : IFlashcardSer
         }
     }
 
-    public async Task<List<Flashcard>> GetFlashcardsByStackId(int stackId, bool fakeId = true)
+    public async Task<List<Flashcard>> GetFlashcardsByStackId(int stackId)
     {
         try
         {
@@ -70,6 +71,16 @@ public class FlashcardService(FlashcardContext flashcardContext) : IFlashcardSer
         {
             throw new Exception($"Database error: {e.Message}");
         }
+    }
+    public async Task<List<FlashcardDto>> GetFlashcardsByStackIdDto(int stackId)
+    {
+        var cards = await GetFlashcardsByStackId(stackId);
+        return [.. cards.Select((c, i) => new FlashcardDto
+        {
+            Question = c.Question,
+            Answer = c.Answer,
+            DisplayId = i
+        })];
     }
 }
 

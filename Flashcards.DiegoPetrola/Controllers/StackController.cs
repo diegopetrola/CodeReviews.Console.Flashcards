@@ -6,7 +6,7 @@ using static Flashcards.DiegoPetrola.Utils.Shared;
 
 namespace Flashcards.DiegoPetrola.Controllers;
 
-public class StackController(ICardStackService _cardStackService, FlashcardController _flashcardController)
+public class StackController(ICardStackService cardStackService, FlashcardController flashcardController)
 {
     enum FlashcardMenu
     {
@@ -35,7 +35,7 @@ public class StackController(ICardStackService _cardStackService, FlashcardContr
         var exit = false;
         while (!exit)
         {
-            var stacks = await _cardStackService.GetAllStacks();
+            var stacks = await cardStackService.GetAllStacks();
             if (stacks.Count == 0)
                 AnsiConsole.MarkupLine($"[{ColorHelper.warning}]Nothing to display, try creating some stacks![/]");
             AnsiConsole.Clear();
@@ -61,8 +61,8 @@ public class StackController(ICardStackService _cardStackService, FlashcardContr
         var exit = false;
         Dictionary<FlashcardMenu, Func<Task>> options = new()
             {
-               { FlashcardMenu.ShowCards, () => _flashcardController.CardsFromStackScreen(stack)},
-               { FlashcardMenu.AddNewCard, () => _flashcardController.AddCardScreen(stack)},
+               { FlashcardMenu.ShowCards, () => flashcardController.CardsFromStackScreen(stack)},
+               { FlashcardMenu.AddNewCard, () => flashcardController.AddCardScreen(stack)},
                { FlashcardMenu.DeleteStack, () => DeleteStackScreen(stack)},
                { FlashcardMenu.EditStack, () => EditStackScreen(stack)},
                { FlashcardMenu.GoBack, () => { exit=true; return Task.CompletedTask; } }
@@ -81,7 +81,7 @@ public class StackController(ICardStackService _cardStackService, FlashcardContr
             panel.Border = BoxBorder.Rounded;
             panel.BorderColor(Color.DarkCyan);
             panel.Padding = new Padding(2, 0);
-            panel.Header = new PanelHeader($"[bold]Stack: {stack.Name}[/]").Centered();
+            panel.Header = new PanelHeader($"[{ColorHelper.bold}]Stack: {stack.Name}[/]").Centered();
 
             AnsiConsole.Write(panel);
             AnsiConsole.Write("\n\n");
@@ -105,7 +105,7 @@ public class StackController(ICardStackService _cardStackService, FlashcardContr
         CardStack stack = new() { Name = name, Description = description };
         try
         {
-            await _cardStackService.AddStack(stack);
+            await cardStackService.AddStack(stack);
             AnsiConsole.MarkupLine($"[{ColorHelper.success}]Card added.[/]");
         }
         catch (Exception e)
@@ -128,7 +128,7 @@ public class StackController(ICardStackService _cardStackService, FlashcardContr
         {
             try
             {
-                await _cardStackService.DeleteStack(stack);
+                await cardStackService.DeleteStack(stack);
                 AnsiConsole.MarkupLine($"\n[{ColorHelper.warning}]Card deleted![/]\n");
             }
             catch (Exception e)
@@ -146,7 +146,7 @@ public class StackController(ICardStackService _cardStackService, FlashcardContr
 
         try
         {
-            await _cardStackService.UpdateStack(stack);
+            await cardStackService.UpdateStack(stack);
             AnsiConsole.MarkupLine($"[{ColorHelper.success}]Stack updated.[/]");
         }
         catch (ArgumentException e)

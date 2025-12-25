@@ -12,6 +12,7 @@ services.AddTransient<ICardStackService, CardStackService>();
 services.AddSingleton<FlashcardController>();
 services.AddSingleton<StackController>();
 services.AddSingleton<MainMenuController>();
+services.AddSingleton<StudyController>();
 
 ServiceProvider serviceProvider = services.BuildServiceProvider();
 
