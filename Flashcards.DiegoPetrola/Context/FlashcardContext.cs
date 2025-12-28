@@ -10,21 +10,21 @@ public class FlashcardContext : DbContext
     public DbSet<CardStack> CardStacks { get; set; }
     public DbSet<StudySession> StudySessions { get; set; }
 
-    public FlashcardContext() : base()
-    { }
+    public FlashcardContext() : base() { }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
         IConfiguration configuration = new ConfigurationBuilder()
           .SetBasePath(Directory.GetCurrentDirectory())
           .AddJsonFile("appsettings.json", optional: false)
-          .Build() ?? throw new Exception("The appsettings.json was deleted or removed, the application can not run.");
+          .Build() ?? throw new Exception("The appsettings.json was deleted or moved, the application can not run.");
 
         options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Flashcard>(entity =>
         {
             entity.HasOne(fc => fc.CardStack)
@@ -55,7 +55,5 @@ public class FlashcardContext : DbContext
             entity.Property(ss => ss.Score).IsRequired();
             entity.Property(ss => ss.TotalQuestions).IsRequired();
         });
-
-        base.OnModelCreating(modelBuilder);
     }
 }

@@ -58,7 +58,7 @@ public class FlashcardController(IFlashcardService _flashcardService)
         while (!exit)
         {
             AnsiConsole.Clear();
-            var flashcards = await _flashcardService.GetFlashcardsByStackId(stack.Id, false);
+            var flashcards = await _flashcardService.GetFlashcardsByStackId(stack.Id);
             if (flashcards.Count == 0)
                 AnsiConsole.MarkupLine($"[{ColorHelper.warning}]This stack is empty.\n[/]");
 

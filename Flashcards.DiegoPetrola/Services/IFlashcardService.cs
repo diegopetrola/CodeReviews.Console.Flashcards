@@ -1,11 +1,14 @@
-﻿using Flashcards.DiegoPetrola.Entities;
+﻿using Flashcards.DiegoPetrola.DTOs;
+using Flashcards.DiegoPetrola.Entities;
 
-namespace Flashcards.DiegoPetrola.Services;
-
-public interface IFlashcardService
+namespace Flashcards.DiegoPetrola.Services
 {
-    Task AddFlashcard(Flashcard card);
-    Task DeleteFlashcard(int Id);
-    Task<List<Flashcard>> GetFlashcardsByStackId(int stackId, bool fakeId = true);
-    Task UpdateCard(Flashcard card);
+    public interface IFlashcardService
+    {
+        Task AddFlashcard(Flashcard card);
+        Task DeleteFlashcard(int Id);
+        Task<List<Flashcard>> GetFlashcardsByStackId(int stackId);
+        Task<List<FlashcardDto>> GetFlashcardsByStackIdDto(int stackId);
+        Task UpdateCard(Flashcard card);
+    }
 }

@@ -16,7 +16,7 @@ public static class Shared
         return panel;
     }
 
-    public static void AskForKey(string message = "Press any key to continue...")
+    public static void AskForKey(string message = "\nPress any key to continue...")
     {
         AnsiConsole.MarkupLine($"\n[{ColorHelper.subtle}]{message}[/]");
         Console.ReadKey(true);

@@ -7,7 +7,7 @@ using static Flashcards.DiegoPetrola.Utils.Shared;
 
 namespace Flashcards.DiegoPetrola.Controllers;
 
-public class StudyController(CardStackService cardStackService, FlashcardService flashcardService)
+public class StudyController(ICardStackService cardStackService, IFlashcardService flashcardService, IStudyService studyService)
 {
     private enum MenuOptions
     {
@@ -96,10 +96,20 @@ public class StudyController(CardStackService cardStackService, FlashcardService
 
     private async Task ResultsScreen(StudySession session)
     {
-        AnsiConsole.Write(new Rule($"[{ColorHelper.success}]Results[/]"));
+        AnsiConsole.WriteLine("\n");
+        AnsiConsole.Write(new Rule($"[{ColorHelper.success}]Results[/]").Justify(Justify.Left));
         AnsiConsole.WriteLine($"""
-            You got {session.Score} out of {session.TotalQuestions} - {(session.Score / session.TotalQuestions) * 100}%
+            You got {session.Score} out of {session.TotalQuestions} - {(session.Score / session.TotalQuestions) * 100:F1}%
             """);
-        //save session
+        try
+        {
+            await studyService.SaveStudySession(session);
+            AnsiConsole.MarkupLine($"[{ColorHelper.success}][/]");
+        }
+        catch (Exception e)
+        {
+            AnsiConsole.MarkupLine($"[{ColorHelper.error}]Error: {e.Message}[/]");
+        }
+        AskForKey();
     }
 }
