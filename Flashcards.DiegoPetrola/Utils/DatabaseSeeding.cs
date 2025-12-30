@@ -38,5 +38,14 @@ public static class DatabaseSeeding
 
         await context.Flashcards.AddRangeAsync(cards);
         await context.SaveChangesAsync();
+
+        for (int i = 0; i < 100; i++)
+        {
+            var session = new StudySession { CardStackId = Random.Shared.Next(0, stacks.Count), };
+            session.StartTime = DateTime.Now.AddDays(-Random.Shared.Next(1, 60));
+            session.StartTime.Hour = Random.Shared.Next(8, 22);
+            session.EndTime = session.StartTime.AddHours(Random.Shared.Next(1, 6));
+
+        }
     }
 }

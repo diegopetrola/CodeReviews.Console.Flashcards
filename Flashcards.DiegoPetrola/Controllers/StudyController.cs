@@ -9,7 +9,7 @@ namespace Flashcards.DiegoPetrola.Controllers;
 
 public class StudyController(ICardStackService cardStackService, IFlashcardService flashcardService, IStudyService studyService)
 {
-    private enum MenuOptions
+    public enum MenuOptions
     {
         Correct,
         PartialyCorrect,
