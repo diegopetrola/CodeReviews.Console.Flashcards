@@ -51,6 +51,7 @@ public class StudyController(ICardStackService cardStackService, IFlashcardServi
         if (cards.Count == 0)
         {
             AnsiConsole.MarkupLine($"[{ColorHelper.warning}]No cards to study, please add some and try again.[/]");
+            AskForKey();
             return;
         }
         Random.Shared.Shuffle(CollectionsMarshal.AsSpan(cards));
@@ -96,10 +97,13 @@ public class StudyController(ICardStackService cardStackService, IFlashcardServi
 
     private async Task ResultsScreen(StudySession session)
     {
+        double accurace = session.Score / session.TotalQuestions * 100;
+        var msgColog = accurace >= 70 ? ColorHelper.success : ColorHelper.warning;
         AnsiConsole.WriteLine("\n");
         AnsiConsole.Write(new Rule($"[{ColorHelper.success}]Results[/]").Justify(Justify.Left));
         AnsiConsole.WriteLine($"""
-            You got {session.Score} out of {session.TotalQuestions} - {(session.Score / session.TotalQuestions) * 100:F1}%
+            You got {session.Score} out of {session.TotalQuestions}.
+            Your accurace is: [{msgColog}] {accurace:F1}% [/]
             """);
         try
         {

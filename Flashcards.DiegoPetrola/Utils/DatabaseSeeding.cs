@@ -1,11 +1,15 @@
 ﻿using Flashcards.DiegoPetrola.Context;
 using Flashcards.DiegoPetrola.Entities;
 using Microsoft.EntityFrameworkCore;
+using Spectre.Console;
 
 namespace Flashcards.DiegoPetrola.Utils;
 
 public static class DatabaseSeeding
 {
+    private static readonly string _errorMsg =
+        $"[{ColorHelper.error}]Error while seeding the database. The application might not work![/]";
+
     public static async Task CustomSeeding()
     {
         using var context = new FlashcardContext();
@@ -35,17 +39,38 @@ public static class DatabaseSeeding
         var card8 = new Flashcard { Question = "List the 3 laws of Newton.", Answer = "1. Inertia: an object at rest or moving at constant speed retains that speed until acted upon by a force.\n2. A force causes an accelaration according to the formula: F=m.a\n3. Action-Reaction: for every action (force), there is an equal and opposite reaction.", CardStackId = physicsStack.Id };
         var card9 = new Flashcard { Question = "Briefly explain the conclusions of Newton's shell theorem.", Answer = "For an object outside of a uniform sphere, all the gravitational force of that sphere can be counting as of coming from the center of it. For an object inside a spherically symmetric shell, there is no net gravitational force on it.", CardStackId = physicsStack.Id };
         cards.AddRange(card7, card8, card9);
+        try
+        {
+            await context.Flashcards.AddRangeAsync(cards);
+        }
+        catch
+        {
+            AnsiConsole.MarkupLine(_errorMsg);
+        }
 
-        await context.Flashcards.AddRangeAsync(cards);
-        await context.SaveChangesAsync();
-
+        List<StudySession> sessions = [];
         for (int i = 0; i < 100; i++)
         {
             var session = new StudySession { CardStackId = Random.Shared.Next(0, stacks.Count), };
-            session.StartTime = DateTime.Now.AddDays(-Random.Shared.Next(1, 60));
-            session.StartTime.Hour = Random.Shared.Next(8, 22);
-            session.EndTime = session.StartTime.AddHours(Random.Shared.Next(1, 6));
-
+            session.StartTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+            session.StartTime = session.StartTime.AddDays(-Random.Shared.Next(1, 60))
+                .AddHours(Random.Shared.Next(8, 22))
+                .AddMinutes(Random.Shared.Next(0, 59));
+            session.EndTime = session.StartTime
+                .AddHours(Random.Shared.Next(1, 5))
+                .AddMinutes(Random.Shared.Next(1, 59));
+            session.Score = Random.Shared.NextDouble();
+            session.TotalQuestions = cards.Where(c => c.CardStackId == session.CardStackId).Count();
+            sessions.Add(session);
+        }
+        try
+        {
+            await context.StudySessions.AddRangeAsync(sessions);
+            await context.SaveChangesAsync();
+        }
+        catch
+        {
+            AnsiConsole.MarkupLine(_errorMsg);
         }
     }
 }

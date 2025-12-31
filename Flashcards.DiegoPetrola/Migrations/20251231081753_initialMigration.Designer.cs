@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Flashcards.DiegoPetrola.Migrations
 {
     [DbContext(typeof(FlashcardContext))]
-    [Migration("20251223073140_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20251231081753_initialMigration")]
+    partial class initialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -101,8 +101,8 @@ namespace Flashcards.DiegoPetrola.Migrations
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Score")
-                        .HasColumnType("int");
+                    b.Property<double>("Score")
+                        .HasColumnType("float");
 
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");

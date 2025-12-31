@@ -19,12 +19,13 @@ services.AddTransient<ICardStackService, CardStackService>();
 services.AddTransient<IStudyService, StudyService>();
 services.AddTransient<FlashcardController>();
 services.AddTransient<StackController>();
+services.AddTransient<ReportController>();
 services.AddTransient<StudyController>();
 services.AddTransient<MainMenuController>();
 
 ServiceProvider serviceProvider = services.BuildServiceProvider();
 
-await DatabaseSeeding.CustomSeeding(); //TODO: add some sessions to the DB to test the report
+await DatabaseSeeding.CustomSeeding(); // TODO: there seems to be some DB bug =(
 
 var mainMenu = serviceProvider.GetService<MainMenuController>()!;
 await mainMenu.ShowMainMenu();

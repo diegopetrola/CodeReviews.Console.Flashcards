@@ -98,8 +98,8 @@ namespace Flashcards.DiegoPetrola.Migrations
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Score")
-                        .HasColumnType("int");
+                    b.Property<double>("Score")
+                        .HasColumnType("float");
 
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");

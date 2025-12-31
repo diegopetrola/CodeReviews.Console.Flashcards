@@ -1,5 +1,7 @@
 ﻿using Flashcards.DiegoPetrola.Services;
+using Flashcards.DiegoPetrola.Utils;
 using Spectre.Console;
+using static Flashcards.DiegoPetrola.Utils.Shared;
 
 namespace Flashcards.DiegoPetrola.Controllers;
 
@@ -31,15 +33,27 @@ public class ReportController(IStudyService studyService)
                 .WrapAround(true)
                 .UseConverter(MenuOptionsToString)
             );
+
+        await GenerateReport(selection);
     }
 
     private async Task GenerateReport(MenuOptions option)
     {
-        var studyReport = await studyService.GetStudyReport(DateTime.Now, DateTime.Now);
-        var plot = new BarChart();
-        foreach (var result in studyReport)
+        AnsiConsole.Clear();
+        var studyReport = await studyService.GetStudyReport(DateTime.Now.AddDays(-30), DateTime.Now);
+        if (studyReport.Count == 0)
         {
-            AnsiConsole.MarkupLine("");
+            AnsiConsole.MarkupLine($"[{ColorHelper.warning}]Nothing to display.[/]");
         }
+        else
+        {
+            var plot = new BarChart();
+            foreach (var result in studyReport)
+            {
+                plot.AddItem($"{result.Year}/{result.Month} - {result.CardStackName}", result.Score);
+            }
+            AnsiConsole.Write(plot);
+        }
+        AskForKey();
     }
 }

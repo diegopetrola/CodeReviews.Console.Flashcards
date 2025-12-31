@@ -2,12 +2,13 @@
 
 namespace Flashcards.DiegoPetrola.Controllers;
 
-public class MainMenuController(StackController stackController, StudyController studyController)
+public class MainMenuController(StackController stackController, StudyController studyController, ReportController reportController)
 {
     private enum MainMenuOptions
     {
         StartStudy,
         ShowStacks,
+        SeeStudyHistory,
         Exit
     };
     private static string MenuOptionsToString(MainMenuOptions option)
@@ -16,6 +17,7 @@ public class MainMenuController(StackController stackController, StudyController
         {
             MainMenuOptions.StartStudy => "Start Study Session",
             MainMenuOptions.ShowStacks => "Show Stacks",
+            MainMenuOptions.SeeStudyHistory => "See Study History",
             _ => option.ToString()
         };
     }
@@ -39,6 +41,9 @@ public class MainMenuController(StackController stackController, StudyController
                     break;
                 case MainMenuOptions.ShowStacks:
                     await stackController.ShowStacks();
+                    break;
+                case MainMenuOptions.SeeStudyHistory:
+                    await reportController.MainScreen();
                     break;
                 case MainMenuOptions.Exit:
                     Environment.Exit(0);
