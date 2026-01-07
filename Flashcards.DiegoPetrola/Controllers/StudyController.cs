@@ -101,7 +101,7 @@ public class StudyController(ICardStackService cardStackService, IFlashcardServi
         var msgColog = accurace >= 70 ? ColorHelper.success : ColorHelper.warning;
         AnsiConsole.WriteLine("\n");
         AnsiConsole.Write(new Rule($"[{ColorHelper.success}]Results[/]").Justify(Justify.Left));
-        AnsiConsole.WriteLine($"""
+        AnsiConsole.MarkupLine($"""
             You got {session.Score} out of {session.TotalQuestions}.
             Your accurace is: [{msgColog}] {accurace:F1}% [/]
             """);

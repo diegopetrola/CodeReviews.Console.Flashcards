@@ -48,7 +48,10 @@ public class ReportController(IStudyService studyService)
     private async Task GenerateReport(MenuOptions option)
     {
         AnsiConsole.Clear();
-        var studyReport = await studyService.GetStudyReport(DateTime.Now.AddDays(-30), DateTime.Now);
+        var startDate = AskDate($"Please type the start date (format=[{ColorHelper.subtle}]{dateFormat}[/]):");
+        var endDate = AskDate($"\nPlease type the end date (format=[{ColorHelper.subtle}]{dateFormat}[/]):");
+
+        var studyReport = await studyService.GetStudyReport(startDate, endDate);
         if (studyReport.Count == 0)
         {
             AnsiConsole.MarkupLine($"[{ColorHelper.warning}]Nothing to display.[/]");
