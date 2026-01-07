@@ -25,7 +25,7 @@ services.AddTransient<MainMenuController>();
 
 ServiceProvider serviceProvider = services.BuildServiceProvider();
 
-await DatabaseSeeding.CustomSeeding(); // TODO: there seems to be some DB bug =(
+await DatabaseSeeding.CustomSeeding();
 
 var mainMenu = serviceProvider.GetService<MainMenuController>()!;
 await mainMenu.ShowMainMenu();

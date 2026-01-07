@@ -7,6 +7,14 @@ namespace Flashcards.DiegoPetrola.Controllers;
 
 public class ReportController(IStudyService studyService)
 {
+    private static readonly List<Color> colors = [
+                Color.Aqua,
+                Color.DarkMagenta,
+                Color.IndianRed,
+                Color.HotPink,
+                Color.CadetBlue,
+                Color.Cornsilk1,
+            ];
     public enum MenuOptions
     {
         ByMonth,
@@ -47,12 +55,25 @@ public class ReportController(IStudyService studyService)
         }
         else
         {
-            var plot = new BarChart();
-            foreach (var result in studyReport)
+            var plot = new BarChart().Label($"[{ColorHelper.subtle}]Study Report[/] [bold] - Average Score[/]")
+                .UseValueFormatter(v => v.ToString("F2"));
+            for (var i = 0; i < studyReport.Count; i++)
             {
-                plot.AddItem($"{result.Year}/{result.Month} - {result.CardStackName}", result.Score);
+                plot.AddItem($"[{ColorHelper.subtle}]{studyReport[i].Year}/{studyReport[i].Month}[/] - {studyReport[i].CardStackName}",
+                    studyReport[i].Score, colors[i % colors.Count]);
             }
             AnsiConsole.Write(plot);
+
+            AnsiConsole.WriteLine();
+
+            var plotCount = new BarChart().Label($"[{ColorHelper.subtle}]Study Report[/] [bold] - Number of Sessions[/]")
+                .UseValueFormatter(v => v.ToString("F0"));
+            for (var i = 0; i < studyReport.Count; i++)
+            {
+                plotCount.AddItem($"[{ColorHelper.subtle}]{studyReport[i].Year}/{studyReport[i].Month}[/] - {studyReport[i].CardStackName}",
+                    studyReport[i].Count, colors[i % colors.Count]);
+            }
+            AnsiConsole.Write(plotCount);
         }
         AskForKey();
     }

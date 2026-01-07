@@ -13,10 +13,7 @@ public static class DatabaseSeeding
     public static async Task CustomSeeding()
     {
         using var context = new FlashcardContext();
-        await context.Database.EnsureCreatedAsync();
-
-        var stack = await context.CardStacks.FirstOrDefaultAsync();
-        if (stack is not null) return;
+        if (context.CardStacks.Any()) return;
 
         var biologyStack = new CardStack { Name = "Biology", Description = "Biology questions.", };
         var csStack = new CardStack { Name = "Computer Science", Description = "CS questions.", };
@@ -41,17 +38,23 @@ public static class DatabaseSeeding
         cards.AddRange(card7, card8, card9);
         try
         {
+            AnsiConsole.MarkupLine($"[{ColorHelper.warning}]Adding custom cards for the first run.[/]");
             await context.Flashcards.AddRangeAsync(cards);
+            await context.SaveChangesAsync();
         }
         catch
         {
             AnsiConsole.MarkupLine(_errorMsg);
+            throw;
         }
 
         List<StudySession> sessions = [];
         for (int i = 0; i < 100; i++)
         {
-            var session = new StudySession { CardStackId = Random.Shared.Next(0, stacks.Count), };
+            var session = new StudySession
+            {
+                CardStackId = stacks[Random.Shared.Next(0, stacks.Count)].Id
+            };
             session.StartTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
             session.StartTime = session.StartTime.AddDays(-Random.Shared.Next(1, 60))
                 .AddHours(Random.Shared.Next(8, 22))
@@ -65,12 +68,14 @@ public static class DatabaseSeeding
         }
         try
         {
+            AnsiConsole.MarkupLine($"[{ColorHelper.warning}]Adding custom study sessions for the first run.[/]");
             await context.StudySessions.AddRangeAsync(sessions);
             await context.SaveChangesAsync();
         }
         catch
         {
             AnsiConsole.MarkupLine(_errorMsg);
+            throw;
         }
     }
 }

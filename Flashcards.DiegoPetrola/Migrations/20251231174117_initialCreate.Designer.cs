@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Flashcards.DiegoPetrola.Migrations
 {
     [DbContext(typeof(FlashcardContext))]
-    [Migration("20251231081753_initialMigration")]
-    partial class initialMigration
+    [Migration("20251231174117_initialCreate")]
+    partial class initialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

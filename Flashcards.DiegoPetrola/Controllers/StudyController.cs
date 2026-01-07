@@ -108,7 +108,7 @@ public class StudyController(ICardStackService cardStackService, IFlashcardServi
         try
         {
             await studyService.SaveStudySession(session);
-            AnsiConsole.MarkupLine($"[{ColorHelper.success}][/]");
+            AnsiConsole.MarkupLine($"[{ColorHelper.success}]You session was saved.[/]");
         }
         catch (Exception e)
         {

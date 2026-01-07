@@ -17,7 +17,7 @@ public class MainMenuController(StackController stackController, StudyController
         {
             MainMenuOptions.StartStudy => "Start Study Session",
             MainMenuOptions.ShowStacks => "Show Stacks",
-            MainMenuOptions.SeeStudyHistory => "See Study History",
+            MainMenuOptions.SeeStudyHistory => "See Study Report",
             _ => option.ToString()
         };
     }
