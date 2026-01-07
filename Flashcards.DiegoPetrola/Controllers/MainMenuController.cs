@@ -43,7 +43,7 @@ public class MainMenuController(StackController stackController, StudyController
                     await stackController.ShowStacks();
                     break;
                 case MainMenuOptions.SeeStudyHistory:
-                    await reportController.MainScreen();
+                    await reportController.ReportScreen();
                     break;
                 case MainMenuOptions.Exit:
                     Environment.Exit(0);

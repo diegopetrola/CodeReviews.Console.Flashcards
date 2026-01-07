@@ -103,7 +103,7 @@ public class StudyController(ICardStackService cardStackService, IFlashcardServi
         AnsiConsole.Write(new Rule($"[{ColorHelper.success}]Results[/]").Justify(Justify.Left));
         AnsiConsole.MarkupLine($"""
             You got {session.Score} out of {session.TotalQuestions}.
-            Your accurace is: [{msgColog}] {accurace:F1}% [/]
+            Your accurace is: [{msgColog}]{accurace:F1}% [/]
             """);
         try
         {

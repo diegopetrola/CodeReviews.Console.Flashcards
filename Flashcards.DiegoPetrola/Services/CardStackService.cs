@@ -38,6 +38,7 @@ public class CardStackService(FlashcardContext context) : ICardStackService
     {
         var s = await _context.CardStacks.Where(s => s.Id == stack.Id || s.Name == stack.Name).ToListAsync();
         if (s.Count > 0) throw new ArgumentException("Stack already exists.");
+
         await _context.CardStacks.AddAsync(stack);
         await _context.SaveChangesAsync();
     }

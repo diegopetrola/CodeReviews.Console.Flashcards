@@ -106,7 +106,7 @@ public class StackController(ICardStackService cardStackService, FlashcardContro
         try
         {
             await cardStackService.AddStack(stack);
-            AnsiConsole.MarkupLine($"[{ColorHelper.success}]Card added.[/]");
+            AnsiConsole.MarkupLine($"[{ColorHelper.success}]Stack added.[/]");
         }
         catch (Exception e)
         {

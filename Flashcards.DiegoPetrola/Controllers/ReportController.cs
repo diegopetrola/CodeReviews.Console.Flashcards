@@ -32,23 +32,11 @@ public class ReportController(IStudyService studyService)
             _ => option.ToString()
         };
     }
-    public async Task MainScreen()
-    {
-        var selection = AnsiConsole.Prompt(
-                new SelectionPrompt<MenuOptions>()
-                .Title("How would you like to view your report?")
-                .AddChoices([MenuOptions.ByMonth, MenuOptions.ByWeek])
-                .WrapAround(true)
-                .UseConverter(MenuOptionsToString)
-            );
 
-        await GenerateReport(selection);
-    }
-
-    private async Task GenerateReport(MenuOptions option)
+    public async Task ReportScreen()
     {
         AnsiConsole.Clear();
-        var startDate = AskDate($"Please type the start date (format=[{ColorHelper.subtle}]{dateFormat}[/]):");
+        var startDate = AskDate($"\nPlease type the start date (format=[{ColorHelper.subtle}]{dateFormat}[/]):");
         var endDate = AskDate($"\nPlease type the end date (format=[{ColorHelper.subtle}]{dateFormat}[/]):");
 
         var studyReport = await studyService.GetStudyReport(startDate, endDate);
