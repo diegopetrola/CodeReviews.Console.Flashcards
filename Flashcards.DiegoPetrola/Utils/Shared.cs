@@ -39,7 +39,7 @@ public static class Shared
     public static DateTime AskDate(string message)
     {
         var date = DateTime.Now;
-        var dateString = AnsiConsole.Prompt(new TextPrompt<string>(message)
+        AnsiConsole.Prompt(new TextPrompt<string>(message)
             .Validate(input =>
                 ValidateStringDate(input, out date) ?
                 ValidationResult.Success() : ValidationResult.Error("Invalid date!")));
