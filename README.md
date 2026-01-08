@@ -1,3 +1,4 @@
+
 # Flashcards app
 
 ## Overview
@@ -16,8 +17,10 @@ project for the C# academy.
 
 ## Installation
 
-- Clone the repository `git clone 
-https://github.com/diegopetrola/CodeReviews.Console.Flashcards` and go to it's folder
+- Clone the repository
+  `git clone https://github.com/diegopetrola/CodeReviews.Console.Flashcards`
+  and go to it's folder
 - Install packages, on Visual Studio packet manager `Restore`
-- Add misgratioons and create the database `Add-Migrations InitialMigration` and `Update-Database`
+- Add misgratioons and create the database
+  `Add-Migrations InitialMigration` and `Update-Database`
 - Run the project `dotnet run`
