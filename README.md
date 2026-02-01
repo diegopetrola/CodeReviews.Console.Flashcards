@@ -21,5 +21,5 @@ project for the C# academy.
   and go to it's folder
 - Install packages, on Visual Studio packet manager `Restore`
 - Add migrations and create the database
-  `Add-Migrations InitialMigration` and `Update-Database`
+  `Add-Migration InitialMigration` and `Update-Database`
 - Run the project `dotnet run`
